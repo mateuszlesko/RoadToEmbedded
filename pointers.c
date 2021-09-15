@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include<stdlib.h>
 #include <ctype.h>
 /*
 THEORY:
@@ -85,4 +86,11 @@ int main(){
     printf("My name is %s; the count of letters is %d \n",name, strlen(name));
     string2Upper(name);
     printf("My name is %s \n",name);
+    /*Multidimensional arrays*/
+    //int - every address of an array next element is up about 2 bytes
+    //multidimensional array in memory is next to each other
+    //mean: 1000: 1, 1002: 2, 1004: 3, 1006:4
+    int arr2d[2][2] = { {1,2},{3,4}};
+    int* pnt2d = &arr2d[0][0];
+    printf("%d \n",*(pnt2d+2));
 }
