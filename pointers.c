@@ -60,6 +60,20 @@ int* multiply(int* a, int* b){
     return c;
 }
 
+
+void BubbleSort(int* array, int n, int (*whatIsMore)(int,int)){
+    int i, j, temp;
+    for(i = 0; i < n; i++){
+        for(j = 0; j < n; j++){
+            if(whatIsMore(array[j],array[j+1] > 0)){
+                temp = array[j];
+                array[j] = array[j+1];
+                array[j+1] = temp;
+            }
+        }
+    }
+}
+
 int main(){
     int seventeen = 17;
     int *pnt17 = &seventeen;
@@ -164,4 +178,30 @@ int main(){
     printf("%d \n",*result);
     free(result);
 
+    /*
+    pointers to the function; store the start address of the block
+    usecase: 
+    - they can be passed to function as an argument
+    type (*name of pointer)(types params that function takes)
+    */
+    int (*p2F)(int,int);
+    p2F = &whatIsMore;
+
+    int compare = (*p2F)(12,23);
+    if(compare == 0){
+        printf("Both numbers are equal \n");
+    }
+    else if(compare == -1){
+        printf("Less \n");
+    }
+    else{
+        printf("More \n");
+    }
+
+    int arraySort [] = {3,2,6,7,1};
+    BubbleSort(arraySort,sizeof(arraySort)/sizeof(int),whatIsMore);
+    for(int i = 0; i < sizeof(arraySort)/sizeof(int); i++){
+        printf("%d, ",arraySort[i]);
+    }
+     printf("\n");
 }
