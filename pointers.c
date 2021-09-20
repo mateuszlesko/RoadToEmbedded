@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include<stdlib.h>
 #include <ctype.h>
 /*
 THEORY:
@@ -47,6 +48,32 @@ void string2Upper(char* A){
     }
 }
 
+//because stack after end function deallocated memory; the pointer to value can be erased
+//passing value from bottom to top won't make problems but getting data from stack top level in bottom level can.
+//the right approach is to save data in heap
+int* multiply(int* a, int* b){
+    //WRONG:
+    //int c = (*a) * (*b);
+    //RIGHT:
+    int* c = (int*) malloc(sizeof(int));
+    *c = (*a) * (*b);
+    return c;
+}
+
+
+void BubbleSort(int* array, int n, int (*whatIsMore)(int,int)){
+    int i, j, temp;
+    for(i = 0; i < n; i++){
+        for(j = 0; j < n; j++){
+            if(whatIsMore(array[j],array[j+1] > 0)){
+                temp = array[j];
+                array[j] = array[j+1];
+                array[j+1] = temp;
+            }
+        }
+    }
+}
+
 int main(){
     int seventeen = 17;
     int *pnt17 = &seventeen;
@@ -85,4 +112,96 @@ int main(){
     printf("My name is %s; the count of letters is %d \n",name, strlen(name));
     string2Upper(name);
     printf("My name is %s \n",name);
+    /*Multidimensional arrays*/
+    //int - every address of an array next element is up about 2 bytes
+    //multidimensional array in memory is next to each other
+    //mean: 1000: 1, 1002: 2, 1004: 3, 1006:4
+    int arr2d[2][2] = { {1,2},{3,4}};
+    int* pnt2d = &arr2d[0][0];
+    printf("%d \n",*(pnt2d+2));
+    printf("%d \n",*(arr2d[0]+1));
+
+    /*dynamic heap memory allocation*/
+    /*override pointer to some value in heap does not clear it; it is still in computer memory. We need manauly delete it */
+    int x1; //stack stores x1
+    
+    /*
+    functions that allocate block of heap memory:
+    - malloc; void* malloc(size_t size); size_t is a positive int (how many bytes needs to be allocated); function do not set value; not initialize
+    - calloc; void* calloc(size_t num, size_t size); num =  number of elements, size = size of data type; function set all bytes with 0; initialize 
+    - realloc; void* realloc(void* pointer, size_t size); pointer = reference to pointer, size = size of data type function change block memory size;
+    copy all data
+    
+    function that deallocate block of heap memory:
+    - free
+    */
+
+    //WRONG:
+    void* PP = malloc(sizeof(int));
+    //*PP = 23; //CAN NOT dereference void pointer; need cast;
+    printf("%d %d \n",PP);
+    //RIGHT:
+    int* pHeap;
+    pHeap = (int*)malloc(sizeof(int)); //if there is no room for data then function return null
+    *pHeap = 10;
+    free(pHeap);
+    //if we want store array in heap: we simply multiply size of data type by array size
+    char* pArray = (char*)malloc(4*sizeof(char));
+    *pArray = 'M';
+    pArray[1] = 'A';
+    *(pArray+2) = 'T';
+    pArray[3]  = 'I';
+    printf("%s \n",pArray);
+
+    free(pArray);
+    pArray = (char*)calloc(5,sizeof(char));
+    //or : pArray = (char*)realloc(pArray,sizeof(char));
+    pArray[0] = 'L';
+    pArray[1] = 'E';
+    pArray[2] = 'S';
+    pArray[3] = 'K';
+    pArray[4] = 'O'; 
+    printf("%s \n",pArray);
+
+    int n;
+    int* A;
+    printf("Enter size of array: \n");
+    scanf("%d",&n);
+    if(n <= 0 ){
+        printf("Wrong number");
+    }
+    else{
+        A = (int*) calloc(n,sizeof(int));
+    }
+    free(A);
+    int* result = multiply(pnt17,pnt13);
+    printf("%d \n",*result);
+    free(result);
+
+    /*
+    pointers to the function; store the start address of the block
+    usecase: 
+    - they can be passed to function as an argument
+    type (*name of pointer)(types params that function takes)
+    */
+    int (*p2F)(int,int);
+    p2F = &whatIsMore;
+
+    int compare = (*p2F)(12,23);
+    if(compare == 0){
+        printf("Both numbers are equal \n");
+    }
+    else if(compare == -1){
+        printf("Less \n");
+    }
+    else{
+        printf("More \n");
+    }
+
+    int arraySort [] = {3,2,6,7,1};
+    BubbleSort(arraySort,sizeof(arraySort)/sizeof(int),whatIsMore);
+    for(int i = 0; i < sizeof(arraySort)/sizeof(int); i++){
+        printf("%d, ",arraySort[i]);
+    }
+     printf("\n");
 }
