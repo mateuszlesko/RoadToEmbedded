@@ -82,41 +82,40 @@ void removeElement(struct Node** headPointer){
     elementsCounter--;
 }
 
-// void removeElementAt(struct Node** headPointer, int position){
-//     if(position > elementsCounter){
-//         return;
-//     }
+void removeElementAt(struct Node** headPointer, int position){
+    if(position > elementsCounter){
+        return;
+    }
 
-//     if (position == 0){
-//         removeElement(headPointer);
-//         return;
-//     }
+    if (position == 0){
+        removeElement(headPointer);
+        return;
+    }
     
-//     struct Node* positionNode = (struct Node*) malloc(sizeof(struct Node));
-//     positionNode = (*headPointer);
-//     int i = 0;
+    struct Node* positionNode = (struct Node*) malloc(sizeof(struct Node));
+    positionNode = (*headPointer);
+    int i = 0;
 
-//     while(i < position){
-//         positionNode = positionNode->next;
-//         i++;
-//     }
-//     if(position > 0 && position < elementsCounter){
-//         struct Node* previousNode = (struct Node*) malloc(sizeof(struct Node));
-//         struct Node* afterNode = (struct Node*) malloc(sizeof(struct Node));
+    while(i < position-1){
+        positionNode = positionNode->next;
+        i++;
+    }
+    if(position > 0 && position < elementsCounter){
+       
 
-//         printf("value: %d \n",positionNode->data);
-//         previousNode = positionNode->prev;
-//         afterNode = positionNode->next;
+        struct Node* previousNode = positionNode;
+        struct Node* toDeleteNode = positionNode->next;
+        struct Node* afterNode = positionNode->next->next; 
+       
+        previousNode->next = afterNode;
+        afterNode-> prev = previousNode;
 
-//         printf("head: %d %d \n",(*headPointer)->next->data,&(*headPointer)->next);
-//         printf(": %d  %d \n",positionNode->data, &positionNode);
-//         printf("- %d \n",previousNode->data);
-//         printf("+ %d \n",afterNode->data);
-//         //free(positionNode);
 
-//         elementsCounter--;
-//     }     
-// }
+        free(toDeleteNode);
+
+        elementsCounter--;
+    }     
+}
 
 void printList(){
     struct Node* tmp = head;
@@ -144,6 +143,7 @@ int main(void){
     removeElement(headPointer);
     printList();
     removeElementAt(headPointer,1);
+    removeElementAt(headPointer,2);
     printList();
     return 0;
 }
