@@ -7,5 +7,5 @@ Data structures:
 - 2 directional linked list :ok_hand:
 - stack :ok_hand:
 - queue :ok_hand:
-- binary tree
+- binary search tree :ok_hand:
 - heap
