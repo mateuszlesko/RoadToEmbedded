@@ -1,0 +1,2 @@
+# Playground - ROAD to embedded systems: 
+The purpose of this repo is to note my progress learning C programming language. From language concepts, through data structures and algorithms to some projects summorize my gained knowledge and skill.
