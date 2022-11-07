@@ -13,6 +13,8 @@
 #include <util/delay.h>
 
 
+int direction = 0;
+
 int main(void)
 {
     /*
@@ -40,10 +42,33 @@ int main(void)
     TCCR1B |= (1 << WGM12) | (1 << CS12); //WGM12 is responsible for generating square wave - CTC1; CS12 = 256 selecting prescaler
     
     OCR1A = 62500;
-  
-  while (1)
-  {
+	
+	TIMSK1 |= (1 << OCIE1A);
+	//enable interrupt
+	sei();
+	while (1)
+	{
     
-  }
+	}
 }
 
+/* change width of impulse is making during interrupt execution*/
+ISR(TIMER1_COMPA_vect)
+{
+	if(direction == 0)
+	{
+		OCR1A += 2000;
+		if(OCR1A >= 62500)
+		{
+			direction = -1;
+		}
+	}
+	else
+	{
+		OCR1A -= 2000;
+		if(OCR1A < 4000)
+		{
+			direction = 1;
+		}
+	}
+}
