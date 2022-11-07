@@ -1,4 +1,4 @@
-# AVR 328p playgoround
+# AVR 328p playground
 
 ## About project:
 Learining AVR 328p platform:
@@ -12,4 +12,4 @@ Learining AVR 328p platform:
 - interfaces
 
 ## Environment - Arduino Nano
-[nano pinouts](nano_pinouts.jpeg)
+![nano pinouts](/nano_pinouts.jpeg "nano pinouts)
