@@ -34,7 +34,7 @@ int main(void)
 ISR(TIMER0_COMPA_vect){
   extra_time++;
   //every 1s
-  if(extra_time > 100){
+  if(extra_time > 10){
     PORTD ^= (1 << 3);
     extra_time = 0;
   }
