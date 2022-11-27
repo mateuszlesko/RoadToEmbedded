@@ -10,6 +10,7 @@ Learining AVR 328p platform:
 - PWM
 - generating square wave on output
 - interfaces
+- LCD
 
 ## Environment - Arduino Nano
 ![nano pinouts](/nano_pinouts.jpeg "nano pinouts)
